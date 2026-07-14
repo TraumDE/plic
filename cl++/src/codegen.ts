@@ -1,8 +1,7 @@
 import stdlib from "./stdlib.js";
 import { type ASTNode } from "./types/index.js";
 
-const capitalize = (str: string): string =>
-  str.charAt(0).toUpperCase() + str.slice(1);
+const capitalize = (str: string): string => str.charAt(0).toUpperCase() + str.slice(1);
 
 const generate = (node: ASTNode): string => {
   switch (node.type) {
@@ -29,10 +28,7 @@ const generate = (node: ASTNode): string => {
       return `${callee}(${args})`;
 
     case "MemberExpression":
-      const objName =
-        node.object.type === "Identifier"
-          ? node.object.name
-          : generate(node.object);
+      const objName = node.object.type === "Identifier" ? node.object.name : generate(node.object);
       return `${objName}:${node.property.name}`;
 
     case "StringLiteral":
