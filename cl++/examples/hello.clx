@@ -1,3 +1,4 @@
 fn main() {
-    tui.print("hello, world!")
+    var text = "hello, world!"
+    io.print(text)
 }
