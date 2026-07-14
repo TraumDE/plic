@@ -1,8 +1,4 @@
-import {
-  type ASTNode,
-  type Identifier,
-  type SymbokKind,
-} from "./types/index.js";
+import { type ASTNode, type SymbokKind } from "./types/index.js";
 import exitWithError from "./utils/exitWithError.js";
 
 export interface SymbolInfo {

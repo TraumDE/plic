@@ -51,5 +51,5 @@ export interface StringLiteral {
 export interface Identifier {
   type: "Identifier";
   name: string;
-  symbolKind?: Sy;
+  symbolKind?: SymbokKind;
 }
