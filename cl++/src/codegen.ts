@@ -38,7 +38,7 @@ const generate = (node: ASTNode): string => {
         }
       }
 
-      return `case clx_std:to_boolean(${condition}) of\n    true -> \n        ${consequent}\n    _ ->\n        ${alternate}\nend`;
+      return `case clx_std:to_boolean(${condition}) of\n    true -> \n        ${consequent};\n    _ ->\n        ${alternate}\nend`;
 
     case "VariableDeclaration":
       const varName = capitalize(node.name.name);
