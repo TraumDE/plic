@@ -23,6 +23,20 @@ const generate = (node: ASTNode): string => {
 
       return `${left} ${operator} ${right}`;
 
+    case "WhileStatement":
+      const cond = generate(node.condition);
+      const loopBody = node.body.map(generate).join(",\n    ");
+      const loopBodyCode = loopBody.length > 0 ? loopBody : "ok";
+      return `(fun Loop() ->
+        case clx_std:to_boolean(${cond}) of
+            true ->
+                ${loopBodyCode},
+                Loop();
+            _ ->
+                ok
+        end
+    end)()`;
+
     case "IfStatement":
       const condition = generate(node.condition);
       const consStr = node.consequent.map(generate).join(",\n    ");

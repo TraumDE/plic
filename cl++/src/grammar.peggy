@@ -16,7 +16,7 @@ FunctionDeclaration
     }
 
 Statement
-    = IfStatement / VariableDeclaration / ExpressionStatement
+    = IfStatement / WhileStatement / VariableDeclaration / ExpressionStatement
 
 IfStatement
     = "if" _ "(" _ cond:Expression _ ")" _ "{" _ cons:Statement* _ "}"
@@ -37,6 +37,16 @@ IfStatement
             alternate: alternateNode
         }
     }
+
+WhileStatement
+    = "while" _ "(" _ cond:Expression _ ")" _ "{" _ body:Statement* _ "}" {
+        return {
+            type: "WhileStatement",
+            condition: cond,
+            body: body
+        }
+    }
+
 
 BinaryExpression
     = left:(CallExpression / MemberExpression / PrimaryExpression) _ op:CompareOperator _ right:Expression {

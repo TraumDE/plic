@@ -63,6 +63,15 @@ class SemanticAnalyzer {
         node.name.symbolKind = "variable";
         break;
 
+      case "WhileStatement":
+        this.analyze(node.condition);
+
+        const previousScopeWhile = this.currentScope;
+        this.currentScope = new Scope(this.currentScope);
+        for (const stmt of node.body) this.analyze(stmt);
+        this.currentScope = previousScopeWhile;
+        break;
+
       case "ExpressionStatement":
         this.analyze(node.expression);
         break;

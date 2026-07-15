@@ -1,6 +1,7 @@
 export type ASTNode = Program | FunctionDeclaration | Statement | Expression;
 
-export type Statement = ExpressionStatement | VariableDeclaration | IfStatement;
+export type Statement =
+  ExpressionStatement | VariableDeclaration | IfStatement | WhileStatement;
 
 export type PrimaryExpression = StringLiteral | Identifier;
 
@@ -19,6 +20,12 @@ export interface IfStatement {
   condition: Expression;
   consequent: Statement[];
   alternate?: Statement[] | IfStatement;
+}
+
+export interface WhileStatement {
+  type: "WhileStatement";
+  condition: Expression;
+  body: Statement[];
 }
 
 export interface BinaryExpression {
