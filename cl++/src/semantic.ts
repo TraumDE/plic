@@ -129,4 +129,4 @@ class SemanticAnalyzer {
   }
 }
 
-export { Scope, SemanticAnalyzer };
+export default SemanticAnalyzer;

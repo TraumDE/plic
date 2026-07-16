@@ -4,7 +4,7 @@ import peggy from "peggy";
 import exitWithError from "./utils/exitWithError.js";
 import { fileURLToPath } from "url";
 import type { ASTNode } from "./types/ast.js";
-import { SemanticAnalyzer } from "./semantic.js";
+import SemanticAnalyzer from "./semantic.js";
 import generate from "./codegen.js";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -15,7 +15,8 @@ const main = () => {
 
   if (!filePath) exitWithError("Error: path to .clx file not specified");
 
-  if (!fs.existsSync(filePath)) exitWithError(`Error: not found file: ${filePath}`);
+  if (!fs.existsSync(filePath))
+    exitWithError(`Error: not found file: ${filePath}`);
 
   try {
     const sourceCode = fs.readFileSync(filePath, "utf-8");
