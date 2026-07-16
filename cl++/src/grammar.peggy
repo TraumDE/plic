@@ -29,6 +29,15 @@ BooleanLiteral
         }
     }
 
+ArrayExpression
+    = "[" _ elements:(Expression|.., _ "," _|)? _ "]" {
+        return {
+            type: "ArrayExpression",
+            elements: elements !== null ? elements : []
+        }
+    }
+
+
 NumberLiteral
     = [0-9]+ ("." [0-9]+)? {
         return {
@@ -123,16 +132,33 @@ ParameterList
     } / _ {return []}
 
 MemberExpression
-    = obj:PrimaryExpression "." prop:Identifier {
-        return {
-            type: "MemberExpression",
-            object: obj,
-            property: prop
+    = head:PrimaryExpression tail:(
+        _ "." _ prop:Identifier {
+            return {
+                computed: false,
+                property: prop
+            }
         }
+        /
+        _ "[" _ prop:Expression _ "]" {
+            return {
+                computed: true,
+                property: prop
+            }
+        }
+        )* {
+        if (tail.length === 0) return head
+
+        return tail.reduce((result, element) => ({
+            type: "MemberExpression",
+            object: result,
+            property: element.property,
+            computed: element.computed
+        }), head)
     }
 
 PrimaryExpression
-    = StringLiteral / Identifier
+    = BooleanLiteral / NumberLiteral / StringLiteral / Identifier / ArrayExpression
 
 StringLiteral
     = '"' chars:[^"]* '"' {

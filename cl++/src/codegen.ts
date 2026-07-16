@@ -23,6 +23,10 @@ const generate = (node: ASTNode): string => {
 
       return `${left} ${operator} ${right}`;
 
+    case "ArrayExpression":
+      const elements = node.elements.map(generate).join(", ");
+      return `[${elements}]`;
+
     case "WhileStatement":
       const cond = generate(node.condition);
       const loopBody = node.body.map(generate).join(",\n    ");
@@ -73,11 +77,15 @@ const generate = (node: ASTNode): string => {
       return `${callee}(${args})`;
 
     case "MemberExpression":
-      const objName =
-        node.object.type === "Identifier"
-          ? node.object.name
-          : generate(node.object);
-      return `${objName}:${node.property.name}`;
+      if (node.computed) {
+        const object = generate(node.object);
+        const index = generate(node.property);
+        return `lists:nth(${index}, ${object})`;
+      } else {
+        const object = generate(node.object);
+        const prop = generate(node.property);
+        return `${object}:${prop}`;
+      }
 
     case "StringLiteral":
       return `"${node.value}"`;

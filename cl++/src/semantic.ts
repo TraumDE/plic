@@ -107,6 +107,10 @@ class SemanticAnalyzer {
         for (const arg of node.arguments) this.analyze(arg);
         break;
 
+      case "ArrayExpression":
+        for (const element of node.elements) this.analyze(element);
+        break;
+
       case "MemberExpression":
         this.analyze(node.object);
         break;

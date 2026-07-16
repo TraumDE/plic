@@ -4,10 +4,14 @@ export type Statement =
   ExpressionStatement | VariableDeclaration | IfStatement | WhileStatement;
 
 export type PrimaryExpression =
-  StringLiteral | Identifier | BooleanLiteral | NumberLiteral;
+  StringLiteral | Identifier | BooleanLiteral | NumberLiteral | ArrayExpression;
 
 export type Expression =
-  PrimaryExpression | MemberExpression | CallExpression | BinaryExpression;
+  | PrimaryExpression
+  | MemberExpression
+  | CallExpression
+  | BinaryExpression
+  | ArrayExpression;
 
 export type SymbokKind = "variable" | "parameter" | "function" | "builtin";
 
@@ -27,6 +31,11 @@ export interface WhileStatement {
   type: "WhileStatement";
   condition: Expression;
   body: Statement[];
+}
+
+export interface ArrayExpression {
+  type: "ArrayExpression";
+  elements: Expression[];
 }
 
 export interface BinaryExpression {
@@ -64,6 +73,7 @@ export interface MemberExpression {
   type: "MemberExpression";
   object: PrimaryExpression;
   property: Identifier;
+  computed: boolean;
 }
 
 export interface StringLiteral {
