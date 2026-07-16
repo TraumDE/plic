@@ -42,7 +42,7 @@ NumberLiteral
     = [0-9]+ ("." [0-9]+)? {
         return {
             type: "NumberLiteral",
-            value: parseFloat(text)
+            value: parseFloat(text())
         }
     }
 
