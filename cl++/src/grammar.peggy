@@ -110,7 +110,39 @@ ExpressionStatement
     }
 
 Expression
-    = BinaryExpression / CallExpression / MemberExpression / PrimaryExpression
+    = CompareExpression
+
+CompareExpression
+    = left:AdditiveExpression _ op:CompareOperator _ right:CompareExpression {
+        return {
+            type: "BinaryExpression",
+            left: left,
+            operator: op,
+            right: right
+        }
+    }
+    / AdditiveExpression
+
+AdditiveExpression
+    = head:BaseExpression tail:(
+        _ op:("++" / "+" / "-") _ right:BaseExpression {
+            return {
+                operator: op,
+                right: right
+            }
+        }
+    )* {
+        if (tail.length === 0) return head
+
+        return tail.reduce((result, element) => ({
+            type: "BinaryExpression",
+            left: result,
+            operator: element.operator,
+            right: element.right
+        }), head)
+    }
+
+BaseExpression = CallExpression / MemberExpression / PrimaryExpression
 
 CallExpression
     = callee:(MemberExpression / PrimaryExpression) _ "(" _ args:ArgumentList _ ")" {
