@@ -14,6 +14,7 @@ export type PrimaryExpression =
 export type Expression =
   | PrimaryExpression
   | MemberExpression
+  | TupleExpression
   | CallExpression
   | BinaryExpression
   | ArrayExpression;
@@ -35,6 +36,11 @@ export interface IfStatement {
   condition: Expression;
   consequent: Statement[];
   alternate?: Statement[] | IfStatement;
+}
+
+export interface TupleExpression {
+  type: "TupleExpression",
+  elements: Expression[]
 }
 
 export interface WhileStatement {

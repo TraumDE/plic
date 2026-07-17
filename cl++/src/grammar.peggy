@@ -208,7 +208,7 @@ MemberExpression
     }
 
 PrimaryExpression
-    = BooleanLiteral / NumberLiteral / StringLiteral / Identifier / ArrayExpression
+    = BooleanLiteral / NumberLiteral / StringLiteral / AtomLiteral / Identifier / ArrayExpression / TupleExpression / Grouping
 
 StringLiteral
     = '"' chars:[^"]* '"' {
@@ -216,6 +216,31 @@ StringLiteral
             type: "StringLiteral",
             value: chars.join("")
         }
+    }
+
+TupleExpression
+    = "(" _ ")" {
+        return {
+            type: "TupleExpression",
+            elements: []
+        }
+    }
+    / "(" _ expr:Expression _ "," _ ")" {
+        return {
+            type: "TupleExpression",
+            elements: [expr]
+        }
+    }
+    / "(" _ first:Expression _ rest:(_ "," _ Expression)+ _ ")" {
+        return {
+            type: "TupleExpression",
+            elements: [first, ...rest.map(r => r[3])]
+        }
+    }
+
+Grouping
+    = "(" _ expr:Expression _ ")" {
+        return expr
     }
 
 AtomLiteral
