@@ -31,6 +31,10 @@ class SemanticAnalyzer {
 
   constructor() {
     this.globalScope.define("io", "builtin");
+    this.globalScope.define("gen_tcp", "builtin")
+    this.globalScope.define("list_to_binary", "builtin")
+    this.globalScope.define("element", "builtin")
+
   }
 
   public analyze(node: ASTNode): void {
