@@ -34,6 +34,7 @@ class SemanticAnalyzer {
     this.globalScope.define("gen_tcp", "builtin")
     this.globalScope.define("list_to_binary", "builtin")
     this.globalScope.define("element", "builtin")
+    this.globalScope.define("lists", "builtin")
 
   }
 
@@ -115,9 +116,26 @@ class SemanticAnalyzer {
 
         break;
 
+      case "ForInStatement":
+        this.analyze(node.iterable)
+
+        const prevScope = this.currentScope
+        this.currentScope = new Scope(prevScope)
+
+        this.currentScope.define(node.iterator.name, "variable")
+
+        for (const stmt of node.body) this.analyze(stmt)
+
+        this.currentScope = prevScope
+        break
+
       case "CallExpression":
         this.analyze(node.callee);
         for (const arg of node.arguments) this.analyze(arg);
+        break;
+
+      case "TupleExpression":
+        for (const element of node.elements) this.analyze(element);
         break;
 
       case "ArrayExpression":

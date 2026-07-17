@@ -57,7 +57,7 @@ NumberLiteral
     }
 
 Statement
-    = ImportDeclaration / ReturnStatement / IfStatement / WhileStatement / VariableDeclaration / ExpressionStatement
+    = ImportDeclaration / ReturnStatement / IfStatement / WhileStatement / ForInStatement / VariableDeclaration / ExpressionStatement
 
 IfStatement
     = "if" _ "(" _ cond:Expression _ ")" _ "{" _ cons:Statement* _ "}"
@@ -141,6 +141,16 @@ ReturnStatement
         }
     }
 
+ForInStatement
+    = "for" _ "(" _ iterator:Identifier _ "in" _ iterable:Expression _ ")" _ "{" _ body:(stmt:Statement _ { return stmt })* "}" {
+        return {
+            type: "ForInStatement",
+            iterator: iterator,
+            iterable: iterable,
+            body: body
+        }
+    }
+
 AdditiveExpression
     = head:BaseExpression tail:(
         _ op:("++" / "+" / "-") _ right:BaseExpression {
@@ -217,6 +227,8 @@ StringLiteral
             value: chars.join("")
         }
     }
+
+
 
 TupleExpression
     = "(" _ ")" {

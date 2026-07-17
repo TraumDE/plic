@@ -38,6 +38,14 @@ const generate = (node: ASTNode, moduleName: string = "main"): string => {
     case "AtomLiteral":
       return `${node.value}`
 
+    case "ForInStatement":
+      const iterName = capitalize(node.iterator.name)
+      const iterableVal = generate(node.iterable, moduleName)
+      const forBody = node.body.map(stmt => generate(stmt, moduleName)).join(",\n    ")
+
+      return `lists:foreach(fun(${iterName}) ->\n    ${forBody}\nend, ${iterableVal})`
+
+
     case "ReturnStatement":
       const arg = generate(node.argument);
       return `throw({'__clx_return', ${arg}})`;

@@ -6,7 +6,8 @@ export type Statement =
   | IfStatement
   | WhileStatement
   | ReturnStatement
-  | ImportDeclaration;
+  | ImportDeclaration
+  | ForInStatement
 
 export type PrimaryExpression =
   StringLiteral | AtomLiteral | Identifier | BooleanLiteral | NumberLiteral | ArrayExpression;
@@ -29,6 +30,13 @@ export type ImportDeclaration = {
 export interface Program {
   type: "Program";
   body: (FunctionDeclaration | ImportDeclaration)[];
+}
+
+export interface ForInStatement {
+  type: "ForInStatement",
+  iterator: Identifier,
+  iterable: Expression,
+  body: Statement[]
 }
 
 export interface IfStatement {
