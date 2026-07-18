@@ -60,7 +60,13 @@ const generate = (node: ASTNode, moduleName: string = "main"): string => {
     case "BinaryExpression":
       const left = generate(node.left);
       const right = generate(node.right);
-      const operator = node.operator === "~=" ? "/=" : node.operator;
+      let operator: string = node.operator;
+
+      if (operator === "~=") {
+        operator = "/=";
+      } else if (operator === "<=") {
+        operator = "=<"
+      }
 
       return `${left} ${operator} ${right}`;
 

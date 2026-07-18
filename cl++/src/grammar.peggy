@@ -107,7 +107,7 @@ BinaryExpression
     }
 
 CompareOperator
-    = "==" / "~=" / "<" / ">" / "<=" / ">="
+    = "==" / "~=" / "<=" / ">=" / "<" / ">"
 
 VariableDeclaration
  = "var" _ name:Identifier _ "=" _ value:Expression _ {
