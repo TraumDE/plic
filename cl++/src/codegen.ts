@@ -134,7 +134,7 @@ const generate = (node: ASTNode, moduleName: string = "main"): string => {
       if (node.computed) {
         const object = generate(node.object, moduleName);
         const index = generate(node.property, moduleName);
-        return `clx_std:get_element(${index}, ${object})`;
+        return `clx_std:get_element(${object}, ${index})`;
       } else {
         const object = generate(node.object, moduleName);
         const prop = generate(node.property, moduleName);
