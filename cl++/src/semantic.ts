@@ -148,6 +148,11 @@ class SemanticAnalyzer {
         for (const arg of node.arguments) this.analyze(arg);
         break;
 
+      case "LogicalExpression":
+        this.analyze(node.left)
+        this.analyze(node.right)
+        break
+
       case "TupleExpression":
         for (const element of node.elements) this.analyze(element);
         break;

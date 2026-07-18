@@ -127,7 +127,7 @@ ExpressionStatement
     }
 
 Expression
-    = CompareExpression
+    = LogicalOrExpression
 
 CompareExpression
     = left:AdditiveExpression _ op:CompareOperator _ right:CompareExpression {
@@ -235,7 +235,41 @@ StringLiteral
         }
     }
 
+LogicalOrExpression
+    = head:LogicalAndExpression tail:(
+        _ "or" _ right:LogicalAndExpression {
+            return {
+                operator: "or",
+                right: right
+            }
+        }
+    )* {
+        if (tail.length === 0) return head
+        return tail.reduce((result, element) => ({
+            type: "LogicalExpression",
+            operator: element.operator,
+            right: element.right,
+            left: result
+        }), head)
+    }
 
+LogicalAndExpression
+    = head:CompareExpression tail:(
+        _ "and" _ right:CompareExpression {
+            return {
+                operator: "and",
+                right: right
+            }
+        }
+    )* {
+        if (tail.length === 0) return head
+        return tail.reduce((result, element) => ({
+            type: "LogicalExpression",
+            operator: element.operator,
+            right: element.right,
+            left: result
+        }), head)
+    }
 
 TupleExpression
     = "(" _ ")" {

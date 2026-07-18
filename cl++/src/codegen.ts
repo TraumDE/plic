@@ -57,6 +57,13 @@ const generate = (node: ASTNode, moduleName: string = "main"): string => {
     case "ImportDeclaration":
       return "";
 
+    case "LogicalExpression":
+      const leftLogic = generate(node.left, moduleName)
+      const rightLogic = generate(node.right, moduleName)
+      const logicOperator = node.operator === "and" ? "andalso" : "orelse"
+
+      return `(${leftLogic} ${logicOperator} ${rightLogic})`
+
     case "BinaryExpression":
       const left = generate(node.left);
       const right = generate(node.right);

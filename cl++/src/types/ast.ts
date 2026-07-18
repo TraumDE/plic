@@ -20,6 +20,7 @@ export type Expression =
   | BinaryExpression
   | ArrayExpression
   | TryExpression
+  | LogicalExpression
 
 export type SymbokKind = "variable" | "parameter" | "function" | "builtin" | "module";
 
@@ -50,6 +51,13 @@ export interface IfStatement {
 export interface TupleExpression {
   type: "TupleExpression",
   elements: Expression[]
+}
+
+export interface LogicalExpression {
+  type: "LogicalExpression"
+  operator: "and" | "or"
+  left: Expression,
+  right: Expression
 }
 
 export interface TryExpression {
