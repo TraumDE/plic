@@ -92,6 +92,10 @@ class SemanticAnalyzer {
         this.currentScope = previousScopeWhile;
         break;
 
+      case "TryExpression":
+        this.analyze(node.argument);
+        break;
+
       case "ExpressionStatement":
         this.analyze(node.expression);
         break;

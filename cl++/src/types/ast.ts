@@ -18,7 +18,8 @@ export type Expression =
   | TupleExpression
   | CallExpression
   | BinaryExpression
-  | ArrayExpression;
+  | ArrayExpression
+  | TryExpression
 
 export type SymbokKind = "variable" | "parameter" | "function" | "builtin" | "module";
 
@@ -49,6 +50,11 @@ export interface IfStatement {
 export interface TupleExpression {
   type: "TupleExpression",
   elements: Expression[]
+}
+
+export interface TryExpression {
+  type: "TryExpression";
+  argument: Expression;
 }
 
 export interface WhileStatement {

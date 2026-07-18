@@ -45,6 +45,10 @@ const generate = (node: ASTNode, moduleName: string = "main"): string => {
 
       return `lists:foreach(fun(${iterName}) ->\n    ${forBody}\nend, ${iterableVal})`
 
+    case "TryExpression":
+      const innerExpression = generate(node.argument, moduleName);
+
+      return `try ${innerExpression} of __TryRes -> {ok, __TryRes} catch _:__TryErr -> {error, __TryErr} end`
 
     case "ReturnStatement":
       const arg = generate(node.argument);
@@ -89,7 +93,7 @@ const generate = (node: ASTNode, moduleName: string = "main"): string => {
       const consStr = node.consequent.map((e) => generate(e, moduleName)).join(",\n    ");
       const consequent = consStr.length > 0 ? consStr : "ok";
 
-      let alternate = "";
+      let alternate = "ok";
       if (node.alternate) {
         if (Array.isArray(node.alternate)) {
           const altStr = node.alternate.map((e) => generate(e, moduleName)).join(",\n    ");

@@ -61,7 +61,7 @@ Statement
 
 IfStatement
     = "if" _ "(" _ cond:Expression _ ")" _ "{" _ cons:Statement* _ "}"
-    alt:(_ "else" _ (IfStatement / "{" _ Statement* _ "}")) {
+    alt:(_ "else" _ (IfStatement / "{" _ Statement* _ "}"))? {
         let alternateNode = undefined
         if (alt) {
             const actualAlt = alt[3]
@@ -88,6 +88,13 @@ WhileStatement
         }
     }
 
+TryExpression
+    = "try" _ arg:(CallExpression / MemberExpression / PrimaryExpression) {
+        return {
+            type: "TryExpression",
+            argument: arg
+        }
+    }
 
 BinaryExpression
     = left:(CallExpression / MemberExpression / PrimaryExpression) _ op:CompareOperator _ right:Expression {
@@ -170,7 +177,7 @@ AdditiveExpression
         }), head)
     }
 
-BaseExpression = CallExpression / MemberExpression / PrimaryExpression
+BaseExpression = TryExpression / CallExpression / MemberExpression / PrimaryExpression
 
 CallExpression
     = callee:(MemberExpression / PrimaryExpression) _ "(" _ args:ArgumentList _ ")" {
