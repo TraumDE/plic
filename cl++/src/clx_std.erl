@@ -1,6 +1,6 @@
 -module(clx_std).
 
--export([to_boolean/1, print/1, random/2]).
+-export([to_boolean/1, print/1, random/2, get_element/2]).
 
 to_boolean(true) ->
     true;
@@ -30,3 +30,9 @@ random(Min, Max) when Min =< Max ->
     Time = abs(erlang:system_time()),
 
     (Time rem (Max - Min + 1)) + Min.
+
+get_element(Tuple, Index) when is_tuple(Tuple) ->
+    element(Index, Tuple);
+
+get_element(Array, Index) when is_list(Array) ->
+    lists:nth(Index, Array).
