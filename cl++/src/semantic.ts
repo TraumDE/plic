@@ -52,6 +52,7 @@ class SemanticAnalyzer {
     this.globalScope.define("list_to_atom", "builtin")
     this.globalScope.define("self", "builtin")
     this.globalScope.define("whereis", "builtin")
+    this.globalScope.define("exit", "builtin")
   }
 
 
