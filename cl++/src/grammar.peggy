@@ -6,7 +6,7 @@ Program
     }
 
 FunctionDeclaration
-    = pub:("pub" _)? "fn" _ name:Identifier _ "(" _ params:ParameterList _ ")" _ "{" _ body:(stmt:Statement _ { return stmt })* "}" {
+    = pub:("pub" ![a-zA-Z0-9_] _)? "fn" ![a-zA-Z0-9_] _ name:Identifier _ "(" _ params:ParameterList _ ")" _ "{" _ body:(stmt:Statement _ { return stmt })* "}" {
         return {
             type: "FunctionDeclaration",
             name: name,
@@ -17,13 +17,13 @@ FunctionDeclaration
     }
 
 BooleanLiteral
-    = "true" {
+    = "true" ![a-zA-Z0-9_] {
         return {
             type: "BooleanLiteral",
             value: true
         }
     }
-    / "false" {
+    / "false" ![a-zA-Z0-9_] {
         return {
             type: "BooleanLiteral",
             value: false
@@ -31,7 +31,7 @@ BooleanLiteral
     }
 
 ImportDeclaration
-    = "import" _ source:StringLiteral _ {
+    = "import" ![a-zA-Z0-9_] _ source:StringLiteral _ {
         return {
             type: "ImportDeclaration",
             source: source
@@ -60,8 +60,8 @@ Statement
     = ImportDeclaration / ReturnStatement / IfStatement / WhileStatement / ForInStatement / VariableDeclaration / ExpressionStatement
 
 IfStatement
-    = "if" _ "(" _ cond:Expression _ ")" _ "{" _ cons:Statement* _ "}"
-    alt:(_ "else" _ (IfStatement / "{" _ Statement* _ "}"))? {
+    = "if" ![a-zA-Z0-9_] _ "(" _ cond:Expression _ ")" _ "{" _ cons:Statement* _ "}"
+    alt:(_ "else" ![a-zA-Z0-9_] _ (IfStatement / "{" _ Statement* _ "}"))? {
         let alternateNode = undefined
         if (alt) {
             const actualAlt = alt[3]
@@ -80,7 +80,7 @@ IfStatement
     }
 
 WhileStatement
-    = "while" _ "(" _ cond:Expression _ ")" _ "{" _ body:Statement* _ "}" {
+    = "while" ![a-zA-Z0-9_] _ "(" _ cond:Expression _ ")" _ "{" _ body:Statement* _ "}" {
         return {
             type: "WhileStatement",
             condition: cond,
@@ -89,7 +89,7 @@ WhileStatement
     }
 
 TryExpression
-    = "try" _ arg:(PostfixExpression) {
+    = "try" ![a-zA-Z0-9_] _ arg:(PostfixExpression) {
         return {
             type: "TryExpression",
             argument: arg
@@ -110,7 +110,7 @@ CompareOperator
     = "==" / "~=" / "<=" / ">=" / "<" / ">"
 
 VariableDeclaration
- = "var" _ name:Identifier _ "=" _ value:Expression _ {
+ = "var" ![a-zA-Z0-9_] _ name:Identifier _ "=" _ value:Expression _ {
     return {
             type: "VariableDeclaration",
             name: name,
@@ -141,7 +141,7 @@ CompareExpression
     / AdditiveExpression
 
 ReturnStatement
-    = "return" _ arg:Expression _ {
+    = "return" ![a-zA-Z0-9_] _ arg:Expression _ {
         return {
             type: "ReturnStatement",
             argument: arg
@@ -149,7 +149,7 @@ ReturnStatement
     }
 
 ForInStatement
-    = "for" _ "(" _ iterator:Identifier _ "in" _ iterable:Expression _ ")" _ "{" _ body:(stmt:Statement _ { return stmt })* "}" {
+    = "for" ![a-zA-Z0-9_] _ "(" _ iterator:Identifier _ "in" ![a-zA-Z0-9_] _ iterable:Expression _ ")" _ "{" _ body:(stmt:Statement _ { return stmt })* "}" {
         return {
             type: "ForInStatement",
             iterator: iterator,
@@ -230,7 +230,7 @@ ArgumentList
     } / _ {return []}
 
 AnonymousFunctionExpression
-    = "fn" _ "(" _ params:ParameterList? _ ")" _ "{" _ body:(stmt:Statement _ { return stmt })* "}" {
+    = "fn" ![a-zA-Z0-9_] _ "(" _ params:ParameterList? _ ")" _ "{" _ body:(stmt:Statement _ { return stmt })* "}" {
         return {
             type: "AnonymousFunctionExpression",
             params: params !== null ? params : [],
@@ -256,7 +256,7 @@ StringLiteral
 
 LogicalOrExpression
     = head:LogicalAndExpression tail:(
-        _ "or" _ right:LogicalAndExpression {
+        _ "or" ![a-zA-Z0-9_] _ right:LogicalAndExpression {
             return {
                 operator: "or",
                 right: right
@@ -274,7 +274,7 @@ LogicalOrExpression
 
 LogicalAndExpression
     = head:CompareExpression tail:(
-        _ "and" _ right:CompareExpression {
+        _ "and" ![a-zA-Z0-9_] _ right:CompareExpression {
             return {
                 operator: "and",
                 right: right
@@ -311,7 +311,7 @@ TupleExpression
     }
 
 ReceiveExpression
-    = "receive" _ "{" _ cases:(c:ReceiveCase _ { return c })* "}" {
+    = "receive" ![a-zA-Z0-9_] _ "{" _ cases:(c:ReceiveCase _ { return c })* "}" {
         return {
             type: "ReceiveExpression",
             cases: cases
