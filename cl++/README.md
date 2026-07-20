@@ -1,3 +1,4 @@
+
 # СL++ (.clx)
 
 CL ++ - это траспилирумый функциональный динамически-типизированный язык в Erlang заточенный специально под AtomVM
@@ -109,7 +110,7 @@ receive {
 
 ## Чат
 
-<img width="800" height="418" alt="ScreencastFrom2026-07-2007-16-03-ezgif com-video-to-gif-converter" src="https://github.com/user-attachments/assets/9a5aaa8c-ef6a-4c91-843a-b0c770f45ad0" />
+<img width="800" height="418" alt="ScreencastFrom2026-07-2007-16-03-ezgif com-video-to-gif-converter(1)" src="https://github.com/user-attachments/assets/3d99d43b-5ef5-4f51-b2ed-a6321cce086a" />
 
 Для демонстрации возможностей языка был написан чат (avm файл можно сказать в релизах)
 
