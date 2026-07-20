@@ -104,7 +104,7 @@ receive {
 
 ## Чат
 
-[chat](media/chat_demo.gif)
+[chat](https://github.com/TraumDE/plic/blob/main/cl%2B%2B/media/chat_demo.gif)
 
 Для демонстрации возможностей языка был написан чат (avm файл можно сказать в релизах)
 
